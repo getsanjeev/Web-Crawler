@@ -11,26 +11,31 @@ import org.jsoup.select.Elements;
 
 public class crawler {
 
-    /*public static DB db = new DB();
+    public static db_connect mydatabase = new db_connect();
 
-    public static void main(String[] args) throws SQLException, IOException {
-        db.runSql2("TRUNCATE Record;");
-        processPage("http://www.mit.edu");
+    public static void main(String[] args) throws SQLException, IOException
+    {
+        mydatabase.runSql2("TRUNCATE Record;");     // empty the table.
+        processPage("http://www.mit.edu");   //main function to crawl.
     }
 
-    public static void processPage(String URL) throws SQLException, IOException{
-        //check if the given URL is already in database
-        String sql = "select * from Record where URL = '"+URL+"'";
-        ResultSet rs = db.runSql(sql);
-        if(rs.next()){
-
-        }else{
+    public static void processPage(String URL) throws SQLException, IOException
+    {
+        //check if the given URL is already in database.
+        String sql_result = "select * from Record where URL = '"+URL+"'";
+        ResultSet rs = mydatabase.runSql(sql_result);   //returns the result set.
+        if(rs.next())
+        {
+            // if has non zero elements in the table.
+           // System.out.println("Has few elements");
+        }
+        else
+        {
             //store the URL to database to avoid parsing again
-            sql = "INSERT INTO  `Crawler`.`Record` " + "(`URL`) VALUES " + "(?);";
-            PreparedStatement stmt = db.conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            stmt.setString(1, URL);
-            stmt.execute();
-
+            sql_result = "INSERT INTO Record (URL) VALUES(?);";
+            PreparedStatement statement = mydatabase.conn.prepareStatement(sql_result, Statement.RETURN_GENERATED_KEYS);
+            statement.setString(1, URL);    // binds values to the statement.
+            statement.execute();
             //get useful information
             Document doc = Jsoup.connect("http://www.mit.edu/").get();
 
@@ -45,5 +50,5 @@ public class crawler {
                     processPage(link.attr("abs:href"));
             }
         }
-    }*/
+    }
 }
